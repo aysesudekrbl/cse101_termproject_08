@@ -3,13 +3,13 @@ import json
 DEFAULT_USER_PATH = "users.json"
 
 def load_users(path: str):
-    f = open(path)
-    print(f.read())
-    #json dosyasından user infoları alıp yazdıracak
+    with open (path,"r") as f:
+        return json.load(f)
+    
 
 def save_users(path: str, users: list):
     
-    with open(path, "a") as f:
+    with open(path, "w") as f:
         f.write(users)
         #users listesini verilen konuma kaydedecek??
     
