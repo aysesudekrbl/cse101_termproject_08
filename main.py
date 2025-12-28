@@ -10,12 +10,12 @@ def main():
 
     while True:
         if current_user is None:
-            print("\n--- ANA MENÜ ---")
-            print("1 - Kullanıcı ekle")
-            print("2 - Giriş yap")
-            print("3 - Çıkış")
+            print("\n--- MAIN MENU ---")
+            print("1 - Register user")
+            print("2 - Login")
+            print("3 - Exit")
 
-            choice = input("Seçim: ")
+            choice = input("Choice: ")
 
             if choice == "1":
                 email = input("Email: ")
@@ -27,9 +27,9 @@ def main():
                 }
 
                 if register_user(users, profile):
-                    print("Kullanıcı eklendi.")
+                    print("User registered successfully.")
                 else:
-                    print("Bu email zaten var.")
+                    print("This email already exists.")
 
             elif choice == "2":
                 email = input("Email: ")
@@ -38,36 +38,36 @@ def main():
                 user = authenticate_user(users, email, pin)
                 if user:
                     current_user = user
-                    print("Giriş başarılı.")
+                    print("Login successful.")
                 else:
-                    print("Hatalı bilgi.")
+                    print("Invalid credentials.")
 
             elif choice == "3":
                 save_state("data", users, workouts, meals, metrics_list)
-                print("Program kapandı.")
+                print("Program exited.")
                 break
 
             else:
-                print("Geçersiz seçim.")
+                print("Invalid choice.")
 
         else:
-            print(f"\n--- KULLANICI MENÜSÜ ({current_user['email']}) ---")
-            print("1 - Workout ekle")
-            print("2 - Workout güncelle")
-            print("3 - Workout sil")
-            print("4 - Meal ekle")
-            print("5 - Meal güncelle")
-            print("6 - Meal sil")
-            print("7 - Metric ekle")
-            print("8 - Çıkış yap")
+            print(f"\n--- USER MENU ({current_user['email']}) ---")
+            print("1 - Add workout")
+            print("2 - Update workout")
+            print("3 - Delete workout")
+            print("4 - Add meal")
+            print("5 - Update meal")
+            print("6 - Delete meal")
+            print("7 - Add metric")
+            print("8 - Logout")
 
-            choice = input("Seçim: ")
+            choice = input("Choice: ")
 
-            # WORKOUT EKLE
+            # ADD WORKOUT
             if choice == "1":
                 wid = input("Workout id: ")
-                date = input("Tarih (YYYY-MM-DD): ")
-                duration = int(input("Süre (dk): "))
+                date = input("Date (YYYY-MM-DD): ")
+                duration = int(input("Duration (minutes): "))
 
                 workout = {
                     "id": wid,
@@ -78,36 +78,36 @@ def main():
                 }
 
                 log_workout(workouts, workout)
-                print("Workout eklendi.")
+                print("Workout added.")
 
-            # WORKOUT GÜNCELLE
+            # UPDATE WORKOUT
             elif choice == "2":
-                wid = input("Güncellenecek workout id: ")
-                new_duration = int(input("Yeni süre: "))
+                wid = input("Workout id to update: ")
+                new_duration = int(input("New duration: "))
 
                 updates = {
                     "duration": new_duration
                 }
 
                 if update_workout(workouts, wid, updates):
-                    print("Workout güncellendi.")
+                    print("Workout updated.")
                 else:
-                    print("Workout bulunamadı.")
+                    print("Workout not found.")
 
-            # WORKOUT SİL
+            # DELETE WORKOUT
             elif choice == "3":
-                wid = input("Silinecek workout id: ")
+                wid = input("Workout id to delete: ")
 
                 if delete_workout(workouts, wid):
-                    print("Workout silindi.")
+                    print("Workout deleted.")
                 else:
-                    print("Workout bulunamadı.")
+                    print("Workout not found.")
 
-            # MEAL EKLE
+            # ADD MEAL
             elif choice == "4":
                 mid = input("Meal id: ")
-                date = input("Tarih (YYYY-MM-DD): ")
-                calories = int(input("Kalori: "))
+                date = input("Date (YYYY-MM-DD): ")
+                calories = int(input("Calories: "))
 
                 meal = {
                     "id": mid,
@@ -117,37 +117,37 @@ def main():
                 }
 
                 log_meal(meals, meal)
-                print("Meal eklendi.")
+                print("Meal added.")
 
-            # MEAL GÜNCELLE
+            # UPDATE MEAL
             elif choice == "5":
-                mid = input("Güncellenecek meal id: ")
-                new_calories = int(input("Yeni kalori: "))
+                mid = input("Meal id to update: ")
+                new_calories = int(input("New calories: "))
 
                 updates = {
                     "calories": new_calories
                 }
 
                 if update_meal(meals, mid, updates):
-                    print("Meal güncellendi.")
+                    print("Meal updated.")
                 else:
-                    print("Meal bulunamadı.")
+                    print("Meal not found.")
 
-            # MEAL SİL
+            # DELETE MEAL
             elif choice == "6":
-                mid = input("Silinecek meal id: ")
+                mid = input("Meal id to delete: ")
 
                 if delete_meal(meals, mid):
-                    print("Meal silindi.")
+                    print("Meal deleted.")
                 else:
-                    print("Meal bulunamadı.")
+                    print("Meal not found.")
 
-            # METRIC EKLE
+            # ADD METRIC
             elif choice == "7":
                 mid = input("Metric id: ")
-                mtype = input("Metric türü: ")
-                date = input("Tarih (YYYY-MM-DD): ")
-                value = float(input("Değer: "))
+                mtype = input("Metric type: ")
+                date = input("Date (YYYY-MM-DD): ")
+                value = float(input("Value: "))
 
                 metric = {
                     "id": mid,
@@ -158,16 +158,13 @@ def main():
                 }
 
                 log_metric(metrics_list, metric)
-                print("Metric eklendi.")
+                print("Metric added.")
 
             # LOGOUT
             elif choice == "8":
                 current_user = None
-                print("Çıkış yapıldı.")
+                print("Logged out.")
 
             else:
-                print("Geçersiz seçim.")
+                print("Invalid choice.")
 
-
-if __name__ == "__main__":
-    main()
