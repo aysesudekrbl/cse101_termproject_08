@@ -1,41 +1,51 @@
-from datetime import datetime, timedelta
-
-def log_workout(workouts: list, workout_data: dict) -> dict:
-    workout_data["id"] = str(len(workouts) + 1) #listedeki yerine göre id verdik antrenmana
-    workouts.append(workout_data) #daha sonra bunu listeye ekledik
+def log_workout(workouts, workout_data):
+    workouts.append(workout_data)
     return workout_data
 
-def update_workout(workouts: list, workout_id: str, updates: dict) -> dict:
-    for w in workouts:
-        if w["id"] == workout_id: #uyuşan workoutu bulduk
-            w.update(updates)
-            return w
-    raise ValueError #workout not found
 
-def delete_workout(workouts: list, workout_id: str) -> bool:
-    for i, w in enumerate(workouts):
-        if w["id"] == workout_id:
-            workouts.pop(i)
+def update_workout(workouts, workout_id, updates):
+    for workout in workouts:
+        if workout['id'] == workout_id:
+            workout.update(updates)
             return True
     return False
 
-def weekly_workout_summary(workouts: list, user_id: str, week_start: str) -> dict:
-    start = datetime.fromisoformat(week_start) 
-    end = start + timedelta(days=7)
-   
-    selected = [w for w in workouts if w["user_id"] == user_id and start <= datetime.fromisoformat(w["date"]) < end]
-    #eğer hem id uyuyosa hem de daha bitmediyse süresi
+
+def delete_workout(workouts, workout_id):
+    for workout in workouts:
+        if workout['id'] == workout_id:
+            workouts.remove(workout)
+            return True
+    return False
+
+
+def weekly_workout_summary(workouts, user_id, week_start):
+    total_workouts = 0
+    total_duration = 0
+
+    for workout in workouts:
+        if workout['user_id'] == user_id:
+            total_workouts += 1
+            total_duration += workout.get('duration', 0)
+
     return {
-        "count": len(selected),
-        "total_minutes": sum(w.get("duration", 0) for w in selected)
+        'total_workouts': total_workouts,
+        'total_duration': total_duration
     }
 
-def personal_records(workouts: list, user_id: str) -> dict:
+
+def personal_records(workouts, user_id):
     records = {}
-    for w in workouts:
-        if w["user_id"] == user_id:
-            for ex in w.get("exercises", []):
-                name = ex["name"]
-                weight = ex.get("weight", 0)
-                records[name] = max(records.get(name, 0), weight)
+
+    for workout in workouts:
+        if workout['user_id'] == user_id:
+            for exercise in workout.get('exercises', []):
+                name = exercise.get('name')
+                weight = exercise.get('weight', 0)
+
+                if name not in records:
+                    records[name] = weight
+                elif weight > records[name]:
+                    records[name] = weight
+
     return records

@@ -1,16 +1,34 @@
-def log_metric(metrics: list, metric_data: dict) -> dict:
-    metric_data["id"] = str(len(metrics) + 1)
+def log_metric(metrics, metric_data):
     metrics.append(metric_data)
     return metric_data
 
-def metrics_summary(metrics: list, user_id: str, metric_type: str, period: tuple[str, str]) -> dict:
-    #tupledaki verileri start ve end atadık
-    start, end = period
-    
-    values = [m["value"] for m in metrics if m["user_id"] == user_id and m["type"] == metric_type and start <= m["date"] <= end]
-    total = sum(values)
-    # değer varsa ortalama al yoksa 0
-    avg = total / len(values) if values else 0
-    return {"average": avg, "count": len(values)}
+
+def metrics_summary(metrics, user_id, metric_type, period):
+    start_date, end_date = period
+    values = []
+
+    for metric in metrics:
+        if metric['user_id'] == user_id and metric['type'] == metric_type:
+            if start_date <= metric['date'] <= end_date:
+                values.append(metric['value'])
+
+    return {
+        'count': len(values),
+        'values': values
+    }
 
 
+def goal_progress(users, metrics, user_id):
+    for user in users:
+        if user['email'] == user_id:
+            return user.get('goals', {})
+    return {}
+
+
+def generate_ascii_chart(values):
+    chart = ""
+
+    for value in values:
+        chart += "*" * int(value) + "\n"
+
+    return chart
