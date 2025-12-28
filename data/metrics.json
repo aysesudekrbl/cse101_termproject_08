@@ -1,1 +1,16 @@
-[]
+[
+  {
+    "id": "mt1",
+    "user_id": "alice@gmail.com",
+    "type": "weight",
+    "date": "2024-12-28",
+    "value": 65.5
+  },
+  {
+    "id": "mt2",
+    "user_id": "bob@gmail.com",
+    "type": "weight",
+    "date": "2024-12-29",
+    "value": 80.0
+  }
+]

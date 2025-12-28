@@ -1,1 +1,16 @@
-[]
+[
+  {
+    "email": "alice@gmail.com",
+    "pin": "1234",
+    "goals": {
+      "weekly_workouts": 3
+    }
+  },
+  {
+    "email": "bob@gmail.com",
+    "pin": "5678",
+    "goals": {
+      "weekly_workouts": 4
+    }
+  }
+]

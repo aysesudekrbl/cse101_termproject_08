@@ -1,1 +1,16 @@
-[]
+[
+  {
+    "id": "w1",
+    "user_id": "alice@gmail.com",
+    "date": "2024-12-28",
+    "duration": 45,
+    "exercises": []
+  },
+  {
+    "id": "w2",
+    "user_id": "bob@gmail.com",
+    "date": "2024-12-29",
+    "duration": 30,
+    "exercises": []
+  }
+]
